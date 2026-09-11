@@ -1,0 +1,79 @@
+app:
+  cp:
+    # Allowed values: [JCP, JCSP]
+    # JCP: pure Java provider
+    # Note: JCSP uses CSP through JNI.
+    # See: https://en.wikipedia.org/wiki/Java_Native_Interface
+
+    provider-name: JCSP
+    #    provider-name: JCP
+
+    # Name of the keystore that contains the private key.
+    # For example, JCP uses the "HDImageStore" keystore,
+    # while JCSP uses "HDIMAGE".
+
+    keystore-name: HDIMAGE
+    #    keystore-name: HDImageStore
+
+    # Key alias (also known as the container name).
+    # Note: the alias does not necessarily match the folder name in HDIMAGE.
+    alias: test2012
+#    alias: oper_pki
+    # PIN or password required to open the container.
+    pin: ""
+
+    # CRL settings.
+    crl:
+      crl-folder-required: false
+      crl-folder: "crls"
+
+    files:
+      # Set to true when processing large files (more than 2 GB).
+      use-temporary-files: false
+
+    tls:
+      ciphers-suites:
+        # v 1.0 - 1.2
+#        - TLS_CIPHER_2001
+#        - TLS_CIPHER_2012
+        # v 1.2
+        - TLS_GOSTR341112_256_WITH_KUZNYECHIK_CTR_OMAC
+        - TLS_GOSTR341112_256_WITH_MAGMA_CTR_OMAC
+        - TLS_GOSTR341112_256_WITH_28147_CNT_IMIT
+        # v 1.3
+        - TLS_GOSTR341112_256_WITH_KUZNYECHIK_MGM_L
+#        - TLS_GOSTR341112_256_WITH_MAGMA_MGM_L
+        - TLS_GOSTR341112_256_WITH_KUZNYECHIK_MGM_S
+#        - TLS_GOSTR341112_256_WITH_MAGMA_MGM_S
+
+      protocols:
+#        - TLSv1
+#        - TLSv1.1
+        - TLSv1.2
+        - TLSv1.3
+
+server:
+  port: 8080
+spring:
+  profiles:
+    # N.B.
+    # load_certs for TLS. use XOR
+    # for JCSP and HSM use getEntry()
+    active:
+#      - load_certs_from_cacerts
+#      - load_certs_from_resources
+      - load_certs_from_local_csp_stores
+
+      - use_get_entry_for_jcsp_and_hsm
+
+# if disabled, certificates from server hello will be filtered. fo this scenario should use HttpsURLConnection
+#      - disable_certificate_verification_in_tls
+
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+      file-size-threshold: 60MB

@@ -1,0 +1,19 @@
+package ru.cryptopro.support.spring.example.model.cades;
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class CAdESSignatureParameter {
+    @Builder.Default
+    private boolean detached = false;
+    @Builder.Default
+    private boolean encodeToB64 = false;
+    @Builder.Default
+    private boolean addChain = true;
+    @Builder.Default
+    private String tsp = "";
+    @Builder.Default
+    private String type = "bes";
+}
