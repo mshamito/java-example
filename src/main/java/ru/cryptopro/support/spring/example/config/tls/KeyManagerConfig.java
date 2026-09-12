@@ -30,11 +30,11 @@ public class KeyManagerConfig {
         KeyManagerFactory factory = KeyManagerFactory.getInstance("GostX509", "JTLS");
         boolean chainRequired = keyStore.getCertificateChain(null).length < 2;
         if (chainRequired) {
-            log.warn("Need certificate chain for your alias. using local certificates");
+            log.warn("Certificate chain missing in container. Mutual TLS requires a chain. Falling back to local certificates");
             KeyStore trustStore = KeyStore.getInstance(JCP.CERT_STORE_NAME);
             trustStore.load(null, null);
-            if (certs.isEmpty())
-                throw new RuntimeException("trust certificates not provided");
+            if (certs == null || certs.isEmpty())
+                throw new IllegalArgumentException("Trusted certificates not provided");
             for (X509Certificate certificate : certs)
                 trustStore.setCertificateEntry(UUID.randomUUID().toString(), certificate);
             PKIXBuilderParameters parameters = new PKIXBuilderParameters(trustStore, new X509CertSelector());
