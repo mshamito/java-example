@@ -8,7 +8,6 @@
 
 ## java 11+
 * скопировать из дистрибутива AdES-core, ASN1P, asn1rt, CAdES, forms_rt, JCP, JCPRequest, JCPRevCheck, JCPRevTools, JCryptoP, \[JCSP\], \[Rutoken\], \[cpSSL / sspiSSL\] в PROJECT_DIR/libs
-* скачать и скопировать файлы bcpkix-jdk18on-1.78.1.jar, bcprov-jdk18on-1.78.1.jar, bcutil-jdk18on-1.78.1.jar в PROJECT_DIR/libs
 
 # Настройка
 * указать считыватель, алиас (имя контейнера) и пин код в application.yml
@@ -16,17 +15,17 @@
 
 # Сборка
 ```shell
-./gradlew clean test bootJar
+./gradlew build
 ```
 # Сборка под более старую java, если установлена более новая
 ```shell
-JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew clean test bootjar
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 ./gradlew build
 ```
 
 
 # Запуск
 ```shell
-/path/to/jre/java -jar build/libs/example.jar
+/path/to/jre/java -jar build/libs/example.war
 
 ```
 

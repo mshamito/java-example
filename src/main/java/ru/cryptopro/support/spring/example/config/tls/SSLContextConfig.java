@@ -35,17 +35,17 @@ public class SSLContextConfig {
     public SSLContext getInstance(boolean mTLS) {
         SSLContext context;
         try {
-            log.info("trying to load GOST TLS Provider (sspiSSL.jar) with GostTLSv1.3 support");
+            log.info("Trying to get an instance of GOST TLS Provider (sspiSSL.jar) with GostTLSv1.3 support");
             context = SSLContext.getInstance("GostTLSv1.3");
-            log.info("sspiSSL loaded");
+            log.info("sspiSSL provided an SSLContext with GostTLSv1.3 protocol");
         } catch (NoSuchAlgorithmException e) {
-            log.warn("failed to load GostTLSv1.3 Provider.");
-            log.warn("trying to load GOST TLS Provider (cpSSL.jar) with GostTLSv1.2 support");
+            log.warn("Failed to get an instance of GostTLSv1.3 provider");
+            log.warn("Trying to get an instance of GOST TLS Provider (cpSSL.jar/sspiSSL.jar) with GostTLSv1.2 support");
             try {
                 context = SSLContext.getInstance("GostTLSv1.2");
-                log.info("cpSSL loaded");
+                log.info("cpSSL / sspiSSL provided an SSLContext with GostTLSv1.2 protocol");
             } catch (NoSuchAlgorithmException ex) {
-                log.error("no GOST TLS Provider was found. Try to use cpSSL.jar / sspiSSL.jar");
+                log.error("GOST TLS Provider was not found. Add and use cpSSL.jar / sspiSSL.jar");
                 throw new NoSuchAlgorithmException(ex);
             }
         }
@@ -67,9 +67,9 @@ public class SSLContextConfig {
                         .createSocket()
         ) {
             log.info("TLS: Provider = {}", context.getProvider());
-            log.info("TLS: supported = {}", Arrays.toString(socket.getSupportedProtocols()));
-            log.info("TLS: enabled = {}", Arrays.toString(socket.getEnabledProtocols()));
-            log.info("TLS: cipher suites = {}", Arrays.toString(socket.getSupportedCipherSuites()));
+            log.info("TLS: supported protocols = {}", Arrays.toString(socket.getSupportedProtocols()));
+            log.info("TLS: enabled protocols = {}", Arrays.toString(socket.getEnabledProtocols()));
+            log.info("TLS: supported cipher suites = {}", Arrays.toString(socket.getSupportedCipherSuites()));
         }
     }
 }
