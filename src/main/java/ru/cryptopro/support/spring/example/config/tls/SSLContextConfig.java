@@ -3,6 +3,7 @@ package ru.cryptopro.support.spring.example.config.tls;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,16 @@ import java.util.Arrays;
 public class SSLContextConfig {
     private final TrustManager[] trustManagers;
     private final KeyManager[] keyManagers;
+
+    @Bean("TLS")
+    public SSLContext getSSLContext() {
+        return getInstance(false);
+    }
+
+    @Bean("mTLS")
+    public SSLContext getMutualSSLContext() {
+        return getInstance(true);
+    }
 
     @SneakyThrows
     public SSLContext getInstance(boolean mTLS) {

@@ -18,7 +18,6 @@ app:
     # Key alias (also known as the container name).
     # Note: the alias does not necessarily match the folder name in HDIMAGE.
     alias: test2012
-#    alias: oper_pki
     # PIN or password required to open the container.
     pin: ""
 
