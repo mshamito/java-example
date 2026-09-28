@@ -40,16 +40,16 @@ app:
         - TLS_GOSTR341112_256_WITH_MAGMA_CTR_OMAC
         - TLS_GOSTR341112_256_WITH_28147_CNT_IMIT
         # v 1.3
-        - TLS_GOSTR341112_256_WITH_KUZNYECHIK_MGM_L
+#        - TLS_GOSTR341112_256_WITH_KUZNYECHIK_MGM_L
 #        - TLS_GOSTR341112_256_WITH_MAGMA_MGM_L
-        - TLS_GOSTR341112_256_WITH_KUZNYECHIK_MGM_S
+#        - TLS_GOSTR341112_256_WITH_KUZNYECHIK_MGM_S
 #        - TLS_GOSTR341112_256_WITH_MAGMA_MGM_S
 
       protocols:
 #        - TLSv1
 #        - TLSv1.1
         - TLSv1.2
-        - TLSv1.3
+#        - TLSv1.3
 
 server:
   port: 8080
@@ -59,9 +59,9 @@ spring:
     # load_certs for TLS. use XOR
     # for JCSP and HSM use getEntry()
     active:
-#      - load_certs_from_cacerts
+      - load_certs_from_cacerts
 #      - load_certs_from_resources
-      - load_certs_from_local_csp_stores
+#      - load_certs_from_local_csp_stores
 
       - use_get_entry_for_jcsp_and_hsm
 
