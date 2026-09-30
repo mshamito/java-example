@@ -1,6 +1,7 @@
 package ru.cryptopro.support.spring.example.service;
 
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -24,9 +25,8 @@ public class LicenseService {
     private void printLicense(String providerName, String className) {
         try {
             Class<?> providerClass = Class.forName(className);
-            Constructor<?> constructor = providerClass.getConstructor((Class<?>[]) null);
-            constructor.setAccessible(true);
-            License license = (License) constructor.newInstance((Object[]) null);
+            Constructor<?> constructor = providerClass.getConstructor();
+            License license = (License) constructor.newInstance();
             log.info("{} {} {}, valid till {}",
                     providerName,
                     license.getDescriptionString(),
@@ -36,7 +36,7 @@ public class LicenseService {
             );
         } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException |
                  IllegalAccessException e) {
-            log.warn("failed to load {} license. e: {}", providerName, e);
+            log.warn("failed to load {} license. e: {}", providerName, ExceptionUtils.getStackTrace(e));
         }
     }
 }
